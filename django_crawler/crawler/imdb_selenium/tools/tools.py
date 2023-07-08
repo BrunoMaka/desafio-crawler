@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 import logging, os
 from abc import ABC
 from crawler.settings import *
+from crawler.locators import * 
 
 
 class Tools(ABC):   
@@ -19,7 +20,7 @@ class Tools(ABC):
         self.webdriver = webdriver       
         self.webdriver.maximize_window()        
         self.url = url    
-        self.setup_log()  
+        #self.setup_log()  
 
     def print_log(self, msg):
         print(msg)
@@ -27,7 +28,7 @@ class Tools(ABC):
 
     def setup_log(self):
         logging.basicConfig(
-        filename =  os.getcwd() + "\\" + f"{CRAWLER_NAME}.log", 
+        filename =  os.getcwd() + f"\\django_crawler\\crawler\\imdb_selenium\\{CRAWLER_NAME}.log", 
         level = logging.INFO, 
         filemode='w', 
         encoding='utf8',
@@ -54,7 +55,7 @@ class Tools(ABC):
         return self.webdriver.find_elements(*locator)    
         
     def open_url(self):        
-        self.webdriver.get(self.url)
+        self.webdriver.get(self.url)        
 
     def click_in_element(self, locator, t=60, el_type='presence'):        
         self.find(locator, t, el_type).click()    

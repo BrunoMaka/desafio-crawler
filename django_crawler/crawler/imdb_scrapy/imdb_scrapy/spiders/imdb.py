@@ -15,13 +15,13 @@ class ImdbSpider(scrapy.Spider):
             yield scrapy.Request(url, headers=self.headers, callback=self.parse)
 
     def parse(self, response):
-        for movie in response.css('.ipc-metadata-list-summary-item.sc-bca49391-0.eypSaE.cli-parent'):
+        for movie in response.css('.ipc-metadata-list-summary-item__tc'):
             yield {
-                'posicao': movie.css('h3.ipc-title__text::text').get().split('.')[0],
-                'filme': movie.css('h3.ipc-title__text::text').get().split('.')[1],
-                'ano': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[0],
-                'duracao': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[1],
-                'classificacao_idade': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[2],
-                'nota': movie.css('div[data-testid="ratingGroup--container"] span::text').get()
+                'position': movie.css('.ipc-title__text::text').get().split('.')[0],
+                'movie': movie.css('.ipc-title__text::text').get().split('.')[1],
+                'year': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[0],
+                'duration': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[1],
+                'rating': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[2],
+                'rate': movie.css('div[data-testid="ratingGroup--container"] span::text').get()
             }
 

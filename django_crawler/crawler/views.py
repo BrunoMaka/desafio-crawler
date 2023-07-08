@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.core.mail import send_mail
 from crawler.models import History
-from subprocess import run
+from subprocess import run, call
 import os
 from django.http import HttpResponse
 import pandas as pd
@@ -11,15 +11,14 @@ def index(request):
     current_path = os.getcwd()     
     if request.method == 'POST':        
         tecnologia = request.POST.get('tecnologia')
-        arquivo = request.POST.get('arquivo')           
+        tipo_arquivo = request.POST.get('arquivo')           
         if tecnologia == 'scrapy':   
             project_path = current_path + f'\\crawler\\imdb_{tecnologia}'
-            response = run_scrapy('imdb', project_path, arquivo)                              
-            os.chdir(current_path)                
+            response = run_scrapy('imdb', project_path, tipo_arquivo)      
         elif tecnologia == 'selenium':
             project_path = current_path + f'\\crawler\\imdb_{tecnologia}'
-            response = run_selenium(project_path)                              
-            os.chdir(current_path)  
+            response = run_selenium('imdb', project_path, tipo_arquivo)                              
+        os.chdir(current_path)  
         historico = History(tipo_acionamento=tecnologia, data_acionamento=timezone.now())
         historico.save() 
         return response               
@@ -63,11 +62,13 @@ def run_scrapy(spider_name, project_path, file_type):
     return response
    
 
-def run_selenium(project_path):
-    os.chdir(project_path) 
-    run(['python', 'main.py'])    
-    caminho_arquivo = project_path + '\\imdb.csv'
+def run_selenium(name, project_path, tipo_arquivo):
+    path = os.path.abspath("..\\")
+    comando_ativar_ambiente = f'{path}\\venv\\Scripts\\activate && python {project_path}\\main.py {project_path} {name} {tipo_arquivo}'
+    call(comando_ativar_ambiente, shell=True)    
+    caminho_arquivo = project_path + f'\\{name}.{tipo_arquivo}'
     with open(caminho_arquivo, 'rb') as arquivo:
         response = HttpResponse(arquivo.read(), content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="imdb.csv"' 
+        response['Content-Disposition'] = f'attachment; filename="{name}.{tipo_arquivo}"' 
+    os.remove(project_path + f'\\{name}.{tipo_arquivo}')
     return response 
