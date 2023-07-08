@@ -22,8 +22,8 @@ BOT_NAME = "imdb_scrapy"
 SPIDER_MODULES = ["imdb_scrapy.spiders"]
 NEWSPIDER_MODULE = "imdb_scrapy.spiders"
 
-FEED_FORMAT = 'csv'
-FEED_URI = 'imdb.csv'
+#FEED_FORMAT = 'csv'
+#FEED_URI = 'imdb.csv'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

@@ -1,7 +1,8 @@
 import scrapy
+from scrapy.settings import Settings
 
 
-class ImdbSpider(scrapy.Spider):    
+class ImdbSpider(scrapy.Spider):        
     name = "imdb"   
     start_urls = ["https://www.imdb.com/chart/top/?ref_=nv_mv_250"]
     headers = {

@@ -11,10 +11,10 @@ def index(request):
     current_path = os.getcwd()     
     if request.method == 'POST':        
         tecnologia = request.POST.get('tecnologia')
-        arquivo = request.POST.get('arquivo')        
+        arquivo = request.POST.get('arquivo')           
         if tecnologia == 'scrapy':   
             project_path = current_path + f'\\crawler\\imdb_{tecnologia}'
-            response = run_scrapy('imdb', project_path)                              
+            response = run_scrapy('imdb', project_path, arquivo)                              
             os.chdir(current_path)                
         elif tecnologia == 'selenium':
             project_path = current_path + f'\\crawler\\imdb_{tecnologia}'
@@ -38,22 +38,30 @@ def history(request):
     historico = History.objects.all()
     return render(request, 'history.html', {'historico': historico})
 
-def run_scrapy(spider_name, project_path):
-    df = pd.DataFrame()
-    df.to_csv(project_path + f'\\{spider_name}.csv')
-    while len(df) == 0:
-        os.chdir(project_path) 
-        run(['scrapy', 'crawl', spider_name]) 
-        caminho_arquivo = project_path + '\\imdb.csv'
-        df = pd.read_csv(project_path + f'\\{spider_name}.csv')
-        if len(df) > 0:
-            df = pd.read_csv(project_path + f'\\{spider_name}.csv', header=1)
-            df.to_csv(project_path + f'\\{spider_name}.csv', index=False)
-            with open(caminho_arquivo, 'rb') as arquivo:
-                response = HttpResponse(arquivo.read(), content_type='application/octet-stream')                
-                response['Content-Disposition'] = 'attachment; filename="imdb.csv"'                
-    os.remove(project_path + f'\\{spider_name}.csv')
+def len_df(file_path):
+    if file_path.split('.')[-1] == 'csv':
+        try:
+            return len(pd.read_csv(file_path))      
+        except:
+            return 0
+    elif file_path.split('.')[-1] == 'json':
+        try:
+            return len(pd.read_json(file_path))    
+        except:
+            return 0    
+
+def run_scrapy(spider_name, project_path, file_type):    
+    os.chdir(project_path) 
+    run(['scrapy', 'crawl', spider_name, f'-o{spider_name}.{file_type}']) 
+    caminho_arquivo = project_path + f'\\{spider_name}.{file_type}'  
+    while len_df(caminho_arquivo) == 0:
+        run(['scrapy', 'crawl', spider_name, f'-o{spider_name}.{file_type}']) 
+    with open(caminho_arquivo, 'rb') as arquivo:
+        response = HttpResponse(arquivo.read(), content_type='application/octet-stream')                
+        response['Content-Disposition'] = f'attachment; filename="{spider_name}.{file_type}"'
+    os.remove(project_path + f'\\{spider_name}.{file_type}')
     return response
+   
 
 def run_selenium(project_path):
     os.chdir(project_path) 
