@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h1>Home</h1>
+    <form method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <label for="tecnologia">Tecnologia:</label>
+        <select name="tecnologia" id="tecnologia">
+            <option value="scrapy">Scrapy</option>
+            <option value="selenium">Selenium</option>
+        </select>
+        <br>
+        <label for="arquivo">Arquivo:</label>
+        <select name="arquivo" id="arquivo">
+            <option value="csv">CSV</option>
+            <option value="xlsx">XLSX</option>
+        </select>
+        <br>
+        <button id="crawler-button" type="submit">Acionar Crawler</button>
+        
+    </form>
+</div>
+{% endblock %}
+

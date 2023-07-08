@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crawler</title>
+    <style>
+        /* Estilos para o menu azul */
+        .menu {
+            background-color: blue;
+            color: white;
+            padding: 10px;
+        }        
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'feedback' %}">Feedback</a>
+        <a href="{% url 'history' %}">Histórico</a>
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

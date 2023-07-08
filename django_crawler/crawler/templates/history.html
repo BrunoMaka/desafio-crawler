@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h1>Histórico</h1>
+    <ul>
+        {% for entry in historico %}
+            <li>{{ entry.tipo_acionamento }} - {{ entry.data_acionamento }}</li>
+        {% empty %}
+            <li>Nenhum acionamento registrado ainda.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
