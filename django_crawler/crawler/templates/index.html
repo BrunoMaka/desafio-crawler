@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-    <h1>Home</h1>
+<div class="index-container page-container">
+    <h1>Bem-vindo ao Crawler - IMDb</h1>
+    <h2>Escolha o tipo de tecnologia que quer utilizar e a saída do arquivo</h2>
     <form method="post" action="{% url 'index' %}">
         {% csrf_token %}
         <label for="tecnologia">Tecnologia:</label>
@@ -17,9 +18,7 @@
             <option value="json">JSON</option>           
         </select>
         <br>
-        <button id="crawler-button" type="submit">Acionar Crawler</button>
-        
+        <button id="crawler-button" type="submit" >Iniciar Crawler</button>
     </form>
 </div>
 {% endblock %}
-

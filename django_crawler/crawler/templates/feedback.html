@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
+<div class="feedback-container page-container">
     <h1>Feedback</h1>
     <form method="post" action="{% url 'feedback' %}">
         {% csrf_token %}

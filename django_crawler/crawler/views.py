@@ -17,11 +17,11 @@ def index(request):
             response = run_scrapy('imdb', project_path, tipo_arquivo)      
         elif tecnologia == 'selenium':
             project_path = current_path + f'\\crawler\\imdb_{tecnologia}'
-            response = run_selenium('imdb', project_path, tipo_arquivo)                              
+            response = run_selenium('imdb', project_path, tipo_arquivo)   
         os.chdir(current_path)  
         historico = History(tipo_acionamento=tecnologia, data_acionamento=timezone.now())
-        historico.save() 
-        return response               
+        historico.save()        
+        return response             
     return render(request, 'index.html')
 
 def feedback(request):
@@ -69,6 +69,6 @@ def run_selenium(name, project_path, tipo_arquivo):
     caminho_arquivo = project_path + f'\\{name}.{tipo_arquivo}'
     with open(caminho_arquivo, 'rb') as arquivo:
         response = HttpResponse(arquivo.read(), content_type='application/octet-stream')
-        response['Content-Disposition'] = f'attachment; filename="{name}.{tipo_arquivo}"' 
+        response['Content-Disposition'] = f'attachment; filename="{name}.{tipo_arquivo}"'        
     os.remove(project_path + f'\\{name}.{tipo_arquivo}')
     return response 
