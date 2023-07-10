@@ -11,7 +11,7 @@ class Crawler(Tools):
         for i, card in enumerate(self.finds(L_CARD)):
             item = {
                 'position': card.find_element(By.CLASS_NAME, 'ipc-title__text').text.split('.')[0],
-                'movie': card.find_element(By.CLASS_NAME, 'ipc-title__text').text.split('.')[-1].replace("'", ""),
+                'movie': self.handdle_movie(card.find_element(By.CLASS_NAME, 'ipc-title__text').text),
                 'year': card.find_elements(By.CSS_SELECTOR, '.sc-14dd939d-6.kHVqMR.cli-title-metadata-item')[0].text,
                 'duration': card.find_elements(By.CSS_SELECTOR, '.sc-14dd939d-6.kHVqMR.cli-title-metadata-item')[1].text,
                 'rating': card.find_elements(By.CSS_SELECTOR, '.sc-14dd939d-6.kHVqMR.cli-title-metadata-item')[2].text,
@@ -20,6 +20,9 @@ class Crawler(Tools):
             }            
             self.print_log(f'ADD - {item}')
             self.items.append(item)    
+
+    def handdle_movie(self, text):
+        return ''.join(text.split('.')[1:]).strip().replace("'", "")
                  
 
     def save_info(self, project_path, filename, file_type):

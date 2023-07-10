@@ -1,8 +1,22 @@
 # Crawler - IMDb
 
-Este é um projeto desenvolvido em Python, para coletar os dados dos 250 top filmes do IMDb e os armazenar em um banco de dados.
+Este é um projeto desenvolvido em Python, para coletar os dados dos top 250 filmes segundo IMDb e os armazenar em um banco de dados. Foram utilizados Django, Scrapy e Selenium para realização do projeto
 
-## Instalação
+## Configurações iniciais
+
+Faça o clone do projeto  https://github.com/BrunoMaka/desafio-crawler.git
+
+Na raiz do projeto, crie um arquivo .env que deve conter:
+
+```
+DB_NAME = 'nome_do_banco_de_dados'
+DB_USER = 'usuario_banco_de_dados'
+DB_PASSWORD = 'senha_banco_de_dados'
+DB_HOST = 'host_banco_de_dados'
+DB_PORT = 'porta_banco_de_dados'
+```
+
+## Instalação (local)
 
 Recomenda-se a instalação das dependências do projeto em um ambiente virtual. Siga os passos abaixo:
 
@@ -26,20 +40,19 @@ python3 -m venv venv
 pip install -r requirements.txt
 ```
 
-4. Configurações iniciais:
-Antes de iniciar, é necessário criar um arquivo de .env e incluir as configurações do seu banco de dados:
-O arquivo .env deve conter:
+4. Entre na pasta do projeto ```cd django_crawler``` e execute o comando:
 
 ```
-DB_NAME = 'nome_do_banco_de_dados'
-DB_USER = 'usuario_banco_de_dados'
-DB_PASSWORD = 'senha_banco_de_dados'
-DB_HOST = 'host_banco_de_dados'
-DB_PORT = 'porta_banco_de_dados'
+python runserver_migrate.py
 ```
 
+Este comando irá criar um banco de dados conforme o nome estabelecido dentro do arquivo .env (caso ele não exista), fará as migrações necessárias e executará o runserver
 
+Caso não tenha mais migrações para serem feitas, execute o comando do runserver diretamente
 
+```
+python manage.py runserver
+```
 
 
 

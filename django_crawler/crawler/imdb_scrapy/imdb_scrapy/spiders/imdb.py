@@ -18,18 +18,23 @@ class ImdbSpider(scrapy.Spider):
         for url in self.start_urls:
             yield scrapy.Request(url, headers=self.headers, callback=self.parse, meta={'history_id': self.history_id})
    
-
     def parse(self, response):
         history_id = response.meta.get('history_id')
         for movie in response.css('.ipc-metadata-list-summary-item__tc'):
+            pos_mov = movie.css('.ipc-title__text::text').get()
+            others = movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()   
+            rate = movie.css('div[data-testid="ratingGroup--container"] span::text').get().replace(',', '.')        
             yield {
-                'position': int(movie.css('.ipc-title__text::text').get().split('.')[0]),
-                'movie': movie.css('.ipc-title__text::text').get().split('.')[-1],                
-                'year': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[0],
-                'duration': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[1],
-                'rating': movie.css('span.sc-14dd939d-6.kHVqMR.cli-title-metadata-item::text').getall()[2],
-                'rate': float(movie.css('div[data-testid="ratingGroup--container"] span::text').get().replace(',', '.')),
+                'position': int(pos_mov.split('.')[0]),
+                'movie': self.handdle_movie(pos_mov),                
+                'year': others[0],
+                'duration': others[1],
+                'rating': others[2],
+                'rate': float(rate),
                 'history_id': history_id
             }
+
+    def handdle_movie(self, text):
+        return ''.join(text.split('.')[1:]).strip().replace("'", "")
 
 
