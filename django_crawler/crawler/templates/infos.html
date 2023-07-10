@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="infos-container page-container">
+    <h1>Informações</h1>        
+    <button onclick="window.location.href='{% url 'history' %}'">Voltar</button>    
+    <button onclick="window.location.href='{% url 'log' history.id %}'">Ver Log</button>
+
+    <br>
+    <br>    
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo de Acionamento</th>
+                <th>Arquivo Gerado</th>
+                <th>Data da Coleta</th>
+                <th>Tempo de Coleta</th>            
+            </tr>
+        </thead>
+        <tbody>   
+            <tr>
+                <td>{{ history.tipo_acionamento }}</td>
+                <td>{{ history.tipo_saida }}</td>
+                <td>{{ history.data_acionamento }}</td>
+                <td>{{ history.tempo_de_coleta  }}</td>
+                
+            </tr>
+           
+        </tbody>
+
+    </table>
+    <br>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Posição</th>
+                <th>Filme</th>
+                <th>Ano</th>
+                <th>Duração</th>
+                <th>Classificação etária</th>
+                <th>Nota</th>
+                <!-- Adicione mais colunas conforme necessário -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in crawler_movies %}
+            <tr>
+                <td>{{ item.position }}</td>
+                <td>{{ item.movie }}</td>
+                <td>{{ item.year }}</td>
+                <td>{{ item.duration }}</td>
+                <td>{{ item.rating }}</td>
+                <td>{{ item.rate }}</td>
+                <!-- Preencha as colunas com os dados relevantes -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div id="logModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLogModal()">&times;</span>
+        <pre id="logText"></pre>
+    </div>
+</div>
+
+
+{% endblock %}

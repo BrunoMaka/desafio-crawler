@@ -3,12 +3,22 @@
 {% block content %}
 <div class="history-container page-container">
     <h1>Histórico</h1>
-    <ul>
+    <div class="history-list">
         {% for entry in historico %}
-            <li>{{ entry.tipo_acionamento }} - {{ entry.data_acionamento }}</li>
+            <div class="history-item">
+                <a href="{% url 'infos' entry.id %}">
+                    <div class="history-item-header">
+                        <span class="history-item-title">{{ entry.tipo_acionamento }}</span>
+                        <span class="history-item-date">{{ entry.data_acionamento }}</span>
+                    </div>
+                    <div class="history-item-body">
+                        <!-- Adicione mais informações do histórico aqui, se necessário -->
+                    </div>
+                </a>
+            </div>
         {% empty %}
-            <li>Nenhum acionamento registrado ainda.</li>
+            <div class="empty-history">Nenhum acionamento registrado ainda.</div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}

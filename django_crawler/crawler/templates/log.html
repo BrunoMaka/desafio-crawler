@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="log-container page-container">
+    <h1>Log</h1>
+    <button onclick="window.location.href='{% url 'infos' history.id %}'">Voltar</button> 
+    <pre>{{ history.log }}</pre>
+</div>
+{% endblock %}

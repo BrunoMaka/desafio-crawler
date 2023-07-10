@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.core.mail import send_mail
-from crawler.models import History
+from crawler.models import History, Movie
 from subprocess import run, call
 import os, time
 from django.http import HttpResponse
@@ -38,7 +38,7 @@ def feedback(request):
 
 
 def history(request):
-    historico = History.objects.all()
+    historico = History.objects.all().order_by('-id')
     return render(request, 'history.html', {'historico': historico})
 
 def len_df(file_path):
@@ -100,4 +100,20 @@ def update_history(project_path, historico, tempo):
     os.remove(project_path + '\\imdb.log')
 
 
+def infos(request, history_id):
+    # Aqui você precisa obter os dados do histórico e os dados do crawler_movie relacionados ao history_id
+    # Vamos supor que você tenha uma classe chamada Historico e uma classe chamada CrawlerMovie
+    
+    historico = History.objects.get(id=history_id)
+    crawler_movies = Movie.objects.filter(history_id=history_id)
+    
+    context = {
+        'history': historico,
+        'crawler_movies': crawler_movies
+    }
+    
+    return render(request, 'infos.html', context)
 
+def log_view(request, history_id):
+    history = get_object_or_404(History, id=history_id)
+    return render(request, 'log.html', {'history': history})
