@@ -6,7 +6,7 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-import mysql.connector, re
+import mysql.connector, re, os, logging
 
 
 class MySQLPipeline(object):
@@ -55,7 +55,7 @@ class MySQLPipeline(object):
         '''
         Durante a extração de dados, é criada a tabela caso não exista, e o item é inserido dentro da tabela
         '''               
-        self.insert_data(item)        
+        self.insert_data(item)  
         return item   
         
     
@@ -65,11 +65,14 @@ class MySQLPipeline(object):
         '''       
         columns = ', '.join(item.keys())
         values = tuple(item.values())        
-        insert_query = f"INSERT INTO crawler_movie ({columns}) VALUES {values}"       
-
+        insert_query = f"INSERT INTO crawler_movie ({columns}) VALUES {values}"  
         self.cursor.execute(insert_query)
         self.db.commit()   
 
+       
+        
+
     def close_spider(self, spider):
+        
         self.db.close()  
         

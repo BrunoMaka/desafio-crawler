@@ -1,4 +1,4 @@
-import scrapy
+import scrapy, logging, os
 
 class ImdbSpider(scrapy.Spider):        
     name = "imdb"   
@@ -11,10 +11,13 @@ class ImdbSpider(scrapy.Spider):
     def __init__(self, history_id=None, *args, **kwargs):
         super(ImdbSpider, self).__init__(*args, **kwargs)
         self.history_id = history_id
-   
-    def start_requests(self):     
+  
+    def start_requests(self):   
+        logger = logging.getLogger()
+        logger.info("Iniciando o spider...")  
         for url in self.start_urls:
             yield scrapy.Request(url, headers=self.headers, callback=self.parse, meta={'history_id': self.history_id})
+   
 
     def parse(self, response):
         history_id = response.meta.get('history_id')
@@ -28,4 +31,5 @@ class ImdbSpider(scrapy.Spider):
                 'rate': float(movie.css('div[data-testid="ratingGroup--container"] span::text').get().replace(',', '.')),
                 'history_id': history_id
             }
+
 

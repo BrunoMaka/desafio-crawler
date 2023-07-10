@@ -6,6 +6,7 @@ class History(models.Model):
     tipo_saida = models.CharField(max_length=50)
     data_acionamento = models.DateTimeField(auto_now_add=True)
     tempo_de_coleta = models.FloatField()
+    log = models.TextField()
 
     def __str__(self):
         return f'{self.data_acionamento} - {self.tipo_acionamento}'

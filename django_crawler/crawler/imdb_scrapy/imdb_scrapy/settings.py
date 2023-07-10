@@ -14,7 +14,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'django_crawler.settings'''
 #import django
 #django.setup()
 
-import os
+import os, logging
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -26,6 +26,15 @@ BOT_NAME = "imdb_scrapy"
 
 #DJANGO_SETTINGS_MODULE = "django_crawler.settings"
 #DOWNLOAD_DELAY = 3
+
+LOG_FILE = "imdb.log"
+logging.basicConfig(
+    filename=LOG_FILE, 
+    level=logging.INFO,
+    filemode='w', 
+    encoding='utf8',
+    format = "%(asctime)s :: %(message)s",
+    datefmt = '%d-%m-%Y %H:%M:%S')
 
 SPIDER_MODULES = ["imdb_scrapy.spiders"]
 NEWSPIDER_MODULE = "imdb_scrapy.spiders"
@@ -43,6 +52,7 @@ DB_SETTINGS = {
 
 ITEM_PIPELINES = {    
     'imdb_scrapy.pipelines.MySQLPipeline': 200,
+    
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

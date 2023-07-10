@@ -24,9 +24,8 @@ def index(request):
         elif tecnologia == 'selenium':
             project_path = current_path + f'\\crawler\\imdb_{tecnologia}'
             response, tempo = run_selenium('imdb', project_path, tipo_arquivo, historico.id)   
-        os.chdir(current_path)  
-        historico.tempo_de_coleta = tempo
-        historico.save()         
+        update_history(project_path, historico, tempo)  
+        os.chdir(current_path)                      
         return response    
     return render(request, 'index.html')
 
@@ -90,5 +89,15 @@ def run_selenium(name, project_path, tipo_arquivo, historico_id):
         response['Content-Disposition'] = f'attachment; filename="{name}.{tipo_arquivo}"'        
     os.remove(project_path + f'\\{name}.{tipo_arquivo}')
     return response 
+
+
+def update_history(project_path, historico, tempo):
+    historico.tempo_de_coleta = tempo
+    with open(project_path + '\\imdb.log', "r", encoding='utf-8') as file:
+        log_content = file.read()
+    historico.log = log_content
+    historico.save()   
+    os.remove(project_path + '\\imdb.log')
+
 
 

@@ -11,20 +11,26 @@ class Application():
         self.filename = filename   
         self.filetype = filetype
         self.history_id = history_id
+        self.right_url = False
         self.run()   
 
     def run(self):
-        setup = Setup(os.getcwd())       
-        self.webdriver = Chrome(
-            service=setup.s, 
-            options=setup.opt)
-        self.crawler = Crawler(
-            self.webdriver, 
-            MAIN_URL)
-        self.crawler.open_url()
-        if not self.crawler.is_right_url():            
-            self.webdriver.quit()
-            self.run()        
+        while not self.right_url:
+            setup = Setup(os.getcwd())    
+            self.webdriver = Chrome(
+                service=setup.s, 
+                options=setup.opt)     
+            self.crawler = Crawler(
+                self.webdriver, 
+                MAIN_URL)
+            self.crawler.print_log(f'Abrindo URL') 
+            self.crawler.open_url()
+            if not self.crawler.is_right_url():    
+                self.crawler.print_log(f'URL está com layout errado. Recarregando url')           
+                self.webdriver.quit()
+            else:
+                self.right_url = True
+        self.crawler.print_log(f'Iniciando a coleta')         
         self.crawler.get_info(
             self.history_id
         )

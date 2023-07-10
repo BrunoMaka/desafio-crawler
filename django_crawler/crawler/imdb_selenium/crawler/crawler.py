@@ -11,25 +11,27 @@ class Crawler(Tools):
         for i, card in enumerate(self.finds(L_CARD)):
             item = {
                 'position': card.find_element(By.CLASS_NAME, 'ipc-title__text').text.split('.')[0],
-                'movie': card.find_element(By.CLASS_NAME, 'ipc-title__text').text.split('.')[1],
+                'movie': card.find_element(By.CLASS_NAME, 'ipc-title__text').text.split('.')[-1].replace("'", ""),
                 'year': card.find_elements(By.CSS_SELECTOR, '.sc-14dd939d-6.kHVqMR.cli-title-metadata-item')[0].text,
                 'duration': card.find_elements(By.CSS_SELECTOR, '.sc-14dd939d-6.kHVqMR.cli-title-metadata-item')[1].text,
                 'rating': card.find_elements(By.CSS_SELECTOR, '.sc-14dd939d-6.kHVqMR.cli-title-metadata-item')[2].text,
                 'rate': card.find_element(By.CSS_SELECTOR, 'div[data-testid="ratingGroup--container"] span').text,
                 'history_id': history_id
             }            
-            print(f'ADD - {item}')
+            self.print_log(f'ADD - {item}')
             self.items.append(item)    
                  
 
     def save_info(self, project_path, filename, file_type):
+        self.print_log(f'Salvando arquivos')
         df = pd.DataFrame(data=self.items)    
         if file_type == 'csv':        
             df.to_csv(f'{project_path}\\{filename}.{file_type}', index=False)
         elif file_type == 'json':
             df.to_json(f'{project_path}\\{filename}.{file_type}', orient="records")
 
-    def save_in_db(self):        
+    def save_in_db(self):     
+        self.print_log(f'Incluindo itens ao banco de dados')   
         conexao = mysql.connector.connect(
             host=DB_SETTINGS['MYSQL_HOST'],
             database=DB_SETTINGS['MYSQL_DATABASE'],
@@ -42,7 +44,7 @@ class Crawler(Tools):
             valores = ', '.join([f"'{valor}'" for valor in item.values()])
             consulta = f"INSERT INTO crawler_movie ({campos}) VALUES ({valores})"        
             cursor.execute(consulta)
-        conexao.commit()
+            conexao.commit()
         conexao.close()
 
 

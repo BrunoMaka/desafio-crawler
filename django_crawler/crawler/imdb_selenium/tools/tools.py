@@ -20,20 +20,20 @@ class Tools(ABC):
         self.webdriver = webdriver       
         self.webdriver.maximize_window()        
         self.url = url    
-        #self.setup_log()  
+        self.setup_log()  
 
     def print_log(self, msg):
         print(msg)
         logging.info(msg)  
 
-    def setup_log(self):
+    def setup_log(self):        
         logging.basicConfig(
-        filename =  os.getcwd() + f"\\django_crawler\\crawler\\imdb_selenium\\{CRAWLER_NAME}.log", 
-        level = logging.INFO, 
-        filemode='w', 
-        encoding='utf8',
-        format = "%(asctime)s :: %(message)s",
-        datefmt = '%d-%m-%Y %H:%M:%S') 
+            filename =  os.getcwd() + f"\\crawler\\imdb_selenium\\imdb.log", 
+            level = logging.INFO, 
+            filemode='w', 
+            encoding='utf8',
+            format = "%(asctime)s :: %(message)s",
+            datefmt = '%d-%m-%Y %H:%M:%S') 
 
     def wait_(self, t=60):
         return WebDriverWait(self.webdriver, t)
