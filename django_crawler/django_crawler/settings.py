@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import mysql.connector
 
 dotenv_path = Path(__file__).resolve().parent.parent.parent / '.env'
 load_dotenv(dotenv_path=dotenv_path)
@@ -80,6 +81,26 @@ WSGI_APPLICATION = 'django_crawler.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+try:
+    connection = mysql.connector.connect(
+        host=os.environ['DB_HOST'],
+        port=os.environ['DB_PORT'],
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD'],
+        database=os.environ['DB_NAME'],
+    )
+    connection.close()
+except mysql.connector.errors.DatabaseError:
+    # Cria um novo banco de dados se não existir
+    connection = mysql.connector.connect(
+        host=os.environ['DB_HOST'],
+        port=os.environ['DB_PORT'],
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD'],
+    )
+    cursor = connection.cursor()
+    cursor.execute(f"CREATE DATABASE {os.environ['DB_NAME']};")
+    connection.close()
 
 
 DATABASES = {
