@@ -4,7 +4,7 @@
 <div class="index-container page-container">
     <h1>Bem-vindo ao Crawler - IMDb</h1>
     <h2>Escolha o tipo de tecnologia que quer utilizar e a saída do arquivo</h2>
-    <form method="post" action="{% url 'index' %}">
+    <form id=index_form method="post" action="{% url 'index' %}">
         {% csrf_token %}
         <label for="tecnologia">Tecnologia:</label>
         <select name="tecnologia" id="tecnologia">
@@ -19,6 +19,8 @@
         </select>
         <br>
         <button id="crawler-button" type="submit" >Iniciar Crawler</button>
+       
+       
     </form>
 </div>
 {% endblock %}

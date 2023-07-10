@@ -229,12 +229,7 @@
     
 </head>
 
-<body>
-    <div class="overlay"></div>
-    <div class="loading-message">
-        Aguarde. Iniciando Crawler... 
-        Após o download do arquivo, recarregue a página para outra ação 
-    </div>
+<body>    
     <div class="header">
         <h1>CRAWLER - Imdb - Top 250 Filmes</h1>
     </div>
@@ -251,6 +246,8 @@
 </body>
 
 <script>
+
+    
     function toggleMenu() {
         const menu = document.querySelector('.menu');
         const pages = document.querySelectorAll('.page-container');
@@ -266,11 +263,7 @@
             });
         }
     }
-    document.getElementById('crawler-button').addEventListener('click', function() {
-    document.querySelector('.overlay').style.display = 'block';
-    document.querySelector('.loading-message').style.display = 'block';
-        });            
-
+   
     
     
 </script>
