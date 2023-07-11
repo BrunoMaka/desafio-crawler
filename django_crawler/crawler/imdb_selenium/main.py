@@ -30,7 +30,8 @@ class Application():
                 self.webdriver.quit()
             else:
                 self.right_url = True
-        self.crawler.print_log(f'Iniciando a coleta')         
+        self.crawler.print_log(f'Iniciando a coleta') 
+        self.webdriver.save_screenshot('screenshot.png')        
         self.crawler.get_info(
             self.history_id
         )

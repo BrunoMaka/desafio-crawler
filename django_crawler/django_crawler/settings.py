@@ -15,6 +15,9 @@ import os
 from dotenv import load_dotenv
 import mysql.connector
 
+#running_with_docker = "DOCKER_ENV_VARIABLE" in os.environ
+
+#if not running_with_docker:
 dotenv_path = Path(__file__).resolve().parent.parent.parent / '.env'
 load_dotenv(dotenv_path=dotenv_path)
 
@@ -81,6 +84,10 @@ WSGI_APPLICATION = 'django_crawler.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+'''if running_with_docker:
+    DATABASES = {}
+else:'''
 try:
     connection = mysql.connector.connect(
         host=os.environ['DB_HOST'],
