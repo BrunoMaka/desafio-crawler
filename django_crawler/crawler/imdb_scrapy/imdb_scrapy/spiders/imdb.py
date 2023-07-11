@@ -1,4 +1,4 @@
-import scrapy, logging, os
+import scrapy, logging
 
 class ImdbSpider(scrapy.Spider):        
     name = "imdb"   

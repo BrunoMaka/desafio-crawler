@@ -1,0 +1,396 @@
+ /* Estilos para o menu */
+ .menu {
+    position: fixed;
+    left: -200px;
+    margin-top: 40px;
+    top: 0;
+    height: 100%;
+    width: 200px;
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    transition: left 0.3s ease-in-out;
+}
+
+.menu.expanded {
+    left: 0;
+}
+
+.menu-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.menu-button:hover {
+    background-color: darkblue;
+}
+/* Estilos para a faixa de cabeçalho */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    
+            
+    }
+
+.header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold
+    
+}
+
+.header a {
+    text-decoration: none; /* Remove o sublinhado */
+    color: inherit; /* Mantém a cor padrão do texto */
+    cursor: pointer; /* Altera o cursor para indicar que é clicável */
+}
+
+.page-container.menu-expanded {
+    margin-left: 200px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.menu a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.menu a:hover {
+    background-color: darkblue;
+}
+   
+
+.feedback-container {
+    margin-top: 100px; /* Ajuste conforme necessário */
+    padding: 20px;
+    text-align: center;
+}
+
+.feedback-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.feedback-container form {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.feedback-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.feedback-container textarea {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.feedback-container input[type="submit"] {
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Estilos para a página de histórico */
+.history-container {
+    margin-top: 50px;
+    padding: 20px;
+}
+
+.history-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.history-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.history-container li {
+    margin-bottom: 5px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.history-container li::before {
+    content: '-';
+    margin-right: 5px;
+}
+
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    transition: background-color 0.3s ease;
+}
+
+.history-item:hover {
+    background-color: #eaeaea;
+}
+
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.history-item-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.history-item-date {
+    font-size: 14px;
+    color: #888;
+}
+
+
+
+.empty-history {
+    font-style: italic;
+    color: #888;
+}
+
+
+/* Estilos para a página inicial */
+.index-container {
+    margin-top: 100px; /* Ajuste conforme necessário */
+    padding: 20px;
+    text-align: center;
+}
+
+.index-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.index-container h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: normal;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.index-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    
+}
+
+.index-container select {
+    width: 200px;
+    padding: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.index-container button {
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+
+/* Estilos para a página infos */
+.infos-container {
+    margin-top: 100px; /* Ajuste conforme necessário */
+    padding: 20px;
+    text-align: left;
+}
+
+.infos-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.infos-container h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: normal;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.infos-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    
+}
+
+.infos-container select {
+    width: 200px;
+    padding: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.infos-container button {
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.infos-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.infos-container th {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.infos-container td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.infos-container tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+
+  /* Estilos para a página infos */
+  .log-container {
+    margin-top: 100px; /* Ajuste conforme necessário */
+    padding: 20px;
+    text-align: left;
+}
+
+.log-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.log-container h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: normal;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.log-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    
+}
+
+.log-container select {
+    width: 200px;
+    padding: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.log-container button {
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    display: none;
+}
+
+.loading-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 10000;
+    display: none;
+}

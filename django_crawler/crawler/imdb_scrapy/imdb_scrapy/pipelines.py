@@ -11,7 +11,7 @@ import mysql.connector, re, os, logging
 
 class MySQLPipeline(object):
     '''
-    Pipeline para criar e manipular tables MySQL
+    Pipeline para criar e manipular tabelas MySQL
     '''
     def __init__(self, db_host, db_user, db_passwd, db_name):
         self.db_host = db_host
@@ -53,7 +53,7 @@ class MySQLPipeline(object):
         
     def process_item(self, item, spider):
         '''
-        Durante a extração de dados, é criada a tabela caso não exista, e o item é inserido dentro da tabela
+        Durante a extração de dados, o item é inserido dentro da tabela
         '''               
         self.insert_data(item)  
         return item   
@@ -61,18 +61,15 @@ class MySQLPipeline(object):
     
     def insert_data(self, item):    
         '''
-        Insere o item dentro da tabela temporária
+        Insere o item dentro da tabela
         '''       
         columns = ', '.join(item.keys())
         values = tuple(item.values())        
         insert_query = f"INSERT INTO crawler_movie ({columns}) VALUES {values}"  
         self.cursor.execute(insert_query)
-        self.db.commit()   
-
-       
+        self.db.commit()         
         
 
-    def close_spider(self, spider):
-        
+    def close_spider(self, spider):        
         self.db.close()  
         

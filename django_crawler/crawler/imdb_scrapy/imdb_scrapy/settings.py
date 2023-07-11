@@ -7,12 +7,6 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-'''import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".."))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'django_crawler.settings'''
-#import django
-#django.setup()
 
 import os, logging
 from dotenv import load_dotenv
@@ -21,11 +15,7 @@ from pathlib import Path
 dotenv_path = Path(__file__).resolve().parent.parent.parent.parent.parent / '.env'
 load_dotenv(dotenv_path=dotenv_path)
 
-
 BOT_NAME = "imdb_scrapy"
-
-#DJANGO_SETTINGS_MODULE = "django_crawler.settings"
-#DOWNLOAD_DELAY = 3
 
 LOG_FILE = "imdb.log"
 logging.basicConfig(
@@ -39,9 +29,6 @@ logging.basicConfig(
 SPIDER_MODULES = ["imdb_scrapy.spiders"]
 NEWSPIDER_MODULE = "imdb_scrapy.spiders"
 
-#FEED_FORMAT = 'csv'
-#FEED_URI = 'imdb.csv'
-
 DB_SETTINGS = {
     'MYSQL_HOST': os.environ['DB_HOST'],
     'MYSQL_USER': os.environ['DB_USER'],
@@ -49,10 +36,8 @@ DB_SETTINGS = {
     'MYSQL_DATABASE': os.environ['DB_NAME'],
 }
 
-
 ITEM_PIPELINES = {    
-    'imdb_scrapy.pipelines.MySQLPipeline': 200,
-    
+    'imdb_scrapy.pipelines.MySQLPipeline': 200,    
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
