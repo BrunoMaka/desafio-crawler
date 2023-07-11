@@ -1,0 +1,22 @@
+# NÃO UTILIZAR
+
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    environment:
+    - MY_DOCKER_ENV_VARIABLE=true
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=django_project
+      - MYSQL_USER=django_user
+      - MYSQL_PASSWORD=django_password
+     

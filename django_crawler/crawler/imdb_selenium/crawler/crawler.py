@@ -6,7 +6,13 @@ import pandas as pd
 
 
 class Crawler(Tools):
+    '''
+    classe principal do crawler que herda alguns métodos de Tools, para facilitar
+    '''
     def get_info(self, history_id):
+        '''
+        coleta todas as informações em um self.items
+        '''
         self.items = []
         for i, card in enumerate(self.finds(L_CARD)):
             item = {
@@ -22,10 +28,17 @@ class Crawler(Tools):
             self.items.append(item)    
 
     def handdle_movie(self, text):
+        '''
+        trata o nome do filme, juntando todas as informações que estão após o '.'
+        foi necessário fazer um replace de "'", pois há um filme que não é aceito com este caracter
+        '''
         return ''.join(text.split('.')[1:]).strip().replace("'", "")
                  
 
     def save_info(self, project_path, filename, file_type):
+        '''
+        salva as informações em um arquivo, conforme tipo definido
+        '''
         self.print_log(f'Salvando arquivos')
         df = pd.DataFrame(data=self.items)    
         if file_type == 'csv':        
@@ -34,6 +47,9 @@ class Crawler(Tools):
             df.to_json(f'{project_path}\\{filename}.{file_type}', orient="records")
 
     def save_in_db(self):     
+        '''
+        salva as informações na tabela do banco de dados
+        '''
         self.print_log(f'Incluindo itens ao banco de dados')   
         conexao = mysql.connector.connect(
             host=DB_SETTINGS['MYSQL_HOST'],
@@ -52,6 +68,9 @@ class Crawler(Tools):
 
 
     def is_right_url(self):
+        '''
+        verifica se a url está no layout correto
+        '''
         return self.find((L_HTML)).get_attribute('xmlns:og') == 'http://opengraphprotocol.org/schema/'
          
 

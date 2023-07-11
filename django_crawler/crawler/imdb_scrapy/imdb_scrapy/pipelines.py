@@ -11,7 +11,7 @@ import mysql.connector, re, os, logging
 
 class MySQLPipeline(object):
     '''
-    Pipeline para criar e manipular tabelas MySQL
+    Pipeline para manipular tabelas MySQL
     '''
     def __init__(self, db_host, db_user, db_passwd, db_name):
         self.db_host = db_host
@@ -70,6 +70,9 @@ class MySQLPipeline(object):
         self.db.commit()         
         
 
-    def close_spider(self, spider):        
+    def close_spider(self, spider):  
+        '''
+        fecha o conector do banco de dados
+        '''      
         self.db.close()  
         

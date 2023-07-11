@@ -15,6 +15,11 @@ class Application():
         self.run()   
 
     def run(self):
+        '''
+        enquanto não encontra a url no layout correto, fecha o webdriver e cria outro
+        após encontrar, faz a coleta, salva o arquivo no formato indicado e salva as 
+        informações no banco de dados
+        '''
         while not self.right_url:
             setup = Setup(os.getcwd())    
             self.webdriver = Chrome(

@@ -54,8 +54,32 @@ Caso não tenha mais migrações para serem feitas, execute o comando do runserv
 python manage.py runserver
 ```
 
+## Projeto
 
+O projeto possui 3 telas principais:
 
+1. Index (home)
+Nesta tela, escolhe o tipo de tecnologia (scrapy ou selenium) e o tipo de saída do arquivo (csv ou json).
+Após o clique no botão, um subprocess é realizado para executar o crawler escolhido
+
+É necessário aguardar o processo ser concluído para mudar de página
+
+Um ponto de melhoria seria incluir um overlay e uma mensagem de "aguarde" até o arquivo ser baixado
+
+2. Feedback
+Nesta tela, há um campo de mensagem para escrever um feedback do projeto e enviá-lo para meu e-mail
+
+3. Histórico
+Nesta tela, háum histórico de coletas, com o tipo de tecnologia e a data da coleta.
+
+Ao clicar, é mostrado alguns dados da coleta, como por exemplo, o tempo em segundos em que a coleta foi feita. É possível ver o Log da coleta nessa tela
+
+## Docker
+Apesar dos arquivos Dockerfile e docker-compose.yml estarem no projeto, não foi possível concluir a criação da imagem do projeto para roda-lo em um container.
+
+O erro acontece quando vai executar o makemigrations, no qual, não encontra o host e port do banco de dados especificado
+
+Acredito que este seja um ponto de melhoria do projeto
 
 
 

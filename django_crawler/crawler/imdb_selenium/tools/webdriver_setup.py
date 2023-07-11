@@ -7,7 +7,10 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver import ChromeOptions
 
 class Setup():
-    def __init__(self, download_path) -> None:       
+    def __init__(self, download_path) -> None:  
+        '''
+        faz o setup inicial do driver
+        '''     
         self.s = Service(ChromeDriverManager().install())  
         self.opt = ChromeOptions()               
         prefs = {
