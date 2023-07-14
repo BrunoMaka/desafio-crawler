@@ -1,8 +1,9 @@
 from tools.tools import Tools
-import mysql.connector
+import sqlite3, os
 from .locators import *
-from .settings import DB_SETTINGS
 import pandas as pd
+from datetime import datetime
+from pathlib import Path
 
 
 class Crawler(Tools):
@@ -25,7 +26,7 @@ class Crawler(Tools):
                 'history_id': history_id
             }            
             self.print_log(f'ADD - {item}')
-            self.items.append(item)    
+            self.items.append(item)            
 
     def handdle_movie(self, text):
         '''
@@ -40,32 +41,62 @@ class Crawler(Tools):
         salva as informações em um arquivo, conforme tipo definido
         '''
         self.print_log(f'Salvando arquivos')
-        df = pd.DataFrame(data=self.items)    
+        df = pd.DataFrame(data=self.items)  
+        path =  os.path.join(project_path, f'{filename}.{file_type}')
+        
         if file_type == 'csv':        
-            df.to_csv(f'{project_path}\\{filename}.{file_type}', index=False)
+            df.to_csv(path, index=False)
         elif file_type == 'json':
-            df.to_json(f'{project_path}\\{filename}.{file_type}', orient="records")
+            df.to_json(path, orient="records")
 
-    def save_in_db(self):     
+    def save_in_db(self, history_id, tempo, project_path):     
         '''
-        salva as informações na tabela do banco de dados
+        Salva as informações na tabela do banco de dados
         '''
-        self.print_log(f'Incluindo itens ao banco de dados')   
-        conexao = mysql.connector.connect(
-            host=DB_SETTINGS['MYSQL_HOST'],
-            database=DB_SETTINGS['MYSQL_DATABASE'],
-            user=DB_SETTINGS['MYSQL_USER'],
-            password=DB_SETTINGS['MYSQL_PASSWORD']
-        )
+        self.print_log('Incluindo itens ao banco de dados')   
+
+        # Estabelece a conexão com o banco de dados SQLite
+        db_path = str(Path(__file__).resolve().parent.parent.parent.parent / 'db.sqlite3')
+        conexao = sqlite3.connect(db_path)
+        #conexao = sqlite3.connect(os.path.dirname(os.getcwd() + '\\db.sqlite3'))
         cursor = conexao.cursor()
+
         for item in self.items:
             campos = ', '.join(item.keys())
             valores = ', '.join([f"'{valor}'" for valor in item.values()])
             consulta = f"INSERT INTO crawler_movie ({campos}) VALUES ({valores})"        
             cursor.execute(consulta)
-            conexao.commit()
+        conexao.commit()
+
+        query_tempo = f'UPDATE crawler_history SET tempo_de_coleta = {tempo} WHERE id = {history_id}'
+        cursor.execute(query_tempo)
+        conexao.commit()
+        
+        with open(os.path.join(project_path, 'imdb.log'), "r", encoding='utf-8') as file:
+            log_content = file.read()
+        query_log = f'UPDATE crawler_history SET log = "{log_content}" WHERE id = {history_id}'
+        cursor.execute(query_log)
+        conexao.commit()
+
         conexao.close()
 
+    def create_history(self, tipo_saida):        
+        db_path = str(Path(__file__).resolve().parent.parent.parent.parent / 'db.sqlite3')
+        
+        conexao = sqlite3.connect(db_path)
+        #conexao = sqlite3.connect(os.path.dirname(os.getcwd() + '\\db.sqlite3'))
+        cursor = conexao.cursor()
+        query = f'''
+        INSERT INTO crawler_history
+        (tipo_acionamento, tipo_saida, data_acionamento, tempo_de_coleta, log)
+        VALUES ('selenium', '{tipo_saida}', '{datetime.now()}', '0', '')      
+        '''
+        cursor.execute(query)
+        conexao.commit()
+        history_id = cursor.lastrowid
+        conexao.close()
+        return history_id
+    
 
     def is_right_url(self):
         '''

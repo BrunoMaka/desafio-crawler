@@ -1,16 +1,11 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <div class="index-container page-container">
-    <h1>Bem-vindo ao Crawler - IMDb</h1>
-    <h2>Escolha o tipo de tecnologia que quer utilizar e a saída do arquivo</h2>
+    <h1>Bem-vindo ao Crawler - IMDb - SCRAPY</h1>
+    <h2>Escolha a saída do arquivo</h2>
     <form id=index_form method="post" action="{% url 'index' %}">
-        {% csrf_token %}
-        <label for="tecnologia">Tecnologia:</label>
-        <select name="tecnologia" id="tecnologia">
-            <option value="scrapy">Scrapy</option>
-            <option value="selenium">Selenium</option>
-        </select>
+        {% csrf_token %}        
         <br>
         <label for="arquivo">Tipo de arquivo:</label>
         <select name="arquivo" id="arquivo">

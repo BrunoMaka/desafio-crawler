@@ -1,18 +1,11 @@
-# NÂO UTILIZAR
-
 FROM python:3.9
 
 WORKDIR /app
 
-COPY requirements.txt .
-
-RUN pip install -r requirements.txt
-
 COPY . .
 
-RUN python django_crawler/manage.py makemigrations
-RUN python django_crawler/manage.py migrate
+COPY requirements.txt .
 
-EXPOSE 8000
+RUN pip install --no-cache-dir -r requirements.txt
 
 CMD ["python", "django_crawler/manage.py", "runserver", "0.0.0.0:8000"]

@@ -11,7 +11,8 @@ import pandas as pd
 def index(request):
     current_path = os.getcwd()     
     if request.method == 'POST':     
-        tecnologia = request.POST.get('tecnologia')
+        #tecnologia = request.POST.get('tecnologia')
+        tecnologia = 'scrapy'
         tipo_arquivo = request.POST.get('arquivo') 
         historico = History(
             tipo_acionamento=tecnologia, 
@@ -19,12 +20,18 @@ def index(request):
             data_acionamento=timezone.now(), 
             tempo_de_coleta=0)        
         historico.save()          
-        if tecnologia == 'scrapy':   
-            project_path = current_path + f'\\crawler\\imdb_{tecnologia}'
-            response, tempo = run_scrapy('imdb', project_path, tipo_arquivo, historico.id)      
-        elif tecnologia == 'selenium':
-            project_path = current_path + f'\\crawler\\imdb_{tecnologia}'
-            response, tempo = run_selenium('imdb', project_path, tipo_arquivo, historico.id)   
+        #if tecnologia == 'scrapy':   
+        project_path_docker = os.path.join(current_path, 'django_crawler', 'crawler', 'imdb_scrapy')
+        project_path_local = os.path.join(current_path, 'crawler', 'imdb_scrapy')
+        try:
+            response, tempo = run_scrapy('imdb', project_path_docker, tipo_arquivo, historico.id) 
+            project_path =  project_path_docker
+        except:
+            response, tempo = run_scrapy('imdb', project_path_local, tipo_arquivo, historico.id)
+            project_path = project_path_local
+        '''elif tecnologia == 'selenium':
+            project_path = os.path.join(current_path, 'django_crawler', 'crawler', 'imdb_selenium')
+            response, tempo = run_selenium('imdb', project_path, tipo_arquivo, historico.id) '''  
         update_history(project_path, historico, tempo)  
         os.chdir(current_path)           
         return response
@@ -67,35 +74,35 @@ def medir_tempo_de_execucao(funcao):
 def run_scrapy(spider_name, project_path, file_type, history_id):   
     os.chdir(project_path) 
     run(['scrapy', 'crawl', spider_name, f'-o{spider_name}.{file_type}', '-a', f'history_id={history_id}']) 
-    caminho_arquivo = project_path + f'\\{spider_name}.{file_type}'  
+    caminho_arquivo = os.path.join(project_path, f'{spider_name}.{file_type}')
     while len_df(caminho_arquivo) == 0:
         run(['scrapy', 'crawl', spider_name, f'-o{spider_name}.{file_type}', '-a', f'history_id={history_id}']) 
     with open(caminho_arquivo, 'rb') as arquivo:
         response = HttpResponse(arquivo.read(), content_type='application/octet-stream')                
         response['Content-Disposition'] = f'attachment; filename="{spider_name}.{file_type}"'
-    os.remove(project_path + f'\\{spider_name}.{file_type}')
+    os.remove(os.path.join(project_path, f'{spider_name}.{file_type}'))
     return response
    
-@medir_tempo_de_execucao
-def run_selenium(name, project_path, tipo_arquivo, historico_id):   
-    path = os.path.abspath("..\\")
-    comando_ativar_ambiente = f'{path}\\venv\\Scripts\\activate && python {project_path}\\main.py {project_path} {name} {tipo_arquivo} {historico_id}'
-    call(comando_ativar_ambiente, shell=True)    
-    caminho_arquivo = project_path + f'\\{name}.{tipo_arquivo}'
+'''@medir_tempo_de_execucao
+def run_selenium(name, project_path, tipo_arquivo, historico_id):
+    #path = os.path.abspath("..")
+    comando_ativar_ambiente = f'python {os.path.join(project_path, "main.py")} {project_path} {name} {tipo_arquivo} {historico_id}'
+    call(comando_ativar_ambiente, shell=True)
+    caminho_arquivo = os.path.join(project_path, f'{name}.{tipo_arquivo}')
     with open(caminho_arquivo, 'rb') as arquivo:
         response = HttpResponse(arquivo.read(), content_type='application/octet-stream')
-        response['Content-Disposition'] = f'attachment; filename="{name}.{tipo_arquivo}"'          
-    os.remove(project_path + f'\\{name}.{tipo_arquivo}')
-    return response 
+        response['Content-Disposition'] = f'attachment; filename="{name}.{tipo_arquivo}"'
+    os.remove(os.path.join(project_path, f'{name}.{tipo_arquivo}'))
+    return response'''
 
 
 def update_history(project_path, historico, tempo):
     historico.tempo_de_coleta = tempo
-    with open(project_path + '\\imdb.log', "r", encoding='utf-8') as file:
+    with open(os.path.join(project_path, 'imdb.log'), "r", encoding='utf-8') as file:
         log_content = file.read()
     historico.log = log_content
-    historico.save()   
-    os.remove(project_path + '\\imdb.log')
+    historico.save()
+    os.remove(os.path.join(project_path, 'imdb.log'))
 
 
 def infos(request, history_id):    

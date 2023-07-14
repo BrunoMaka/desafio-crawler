@@ -12,18 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
-import mysql.connector
 
-#running_with_docker = "DOCKER_ENV_VARIABLE" in os.environ
-
-#if not running_with_docker:
-dotenv_path = Path(__file__).resolve().parent.parent.parent / '.env'
-load_dotenv(dotenv_path=dotenv_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -35,7 +27,6 @@ SECRET_KEY = 'django-insecure-%h-%%f&3o!kf07r@iyu0m!w9xbr9hmkj^t%$%l-(l7c6^v#_am
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -82,46 +73,12 @@ WSGI_APPLICATION = 'django_crawler.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-
-'''if running_with_docker:
-    DATABASES = {}
-else:'''
-try:
-    connection = mysql.connector.connect(
-        host=os.environ['DB_HOST'],
-        port=os.environ['DB_PORT'],
-        user=os.environ['DB_USER'],
-        password=os.environ['DB_PASSWORD'],
-        database=os.environ['DB_NAME'],
-    )
-    connection.close()
-except mysql.connector.errors.DatabaseError:
-    # Cria um novo banco de dados se não existir
-    connection = mysql.connector.connect(
-        host=os.environ['DB_HOST'],
-        port=os.environ['DB_PORT'],
-        user=os.environ['DB_USER'],
-        password=os.environ['DB_PASSWORD'],
-    )
-    cursor = connection.cursor()
-    cursor.execute(f"CREATE DATABASE {os.environ['DB_NAME']};")
-    connection.close()
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ['DB_NAME'],
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASSWORD'],
-        'HOST': os.environ['DB_HOST'],
-        'PORT': os.environ['DB_PORT'],
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

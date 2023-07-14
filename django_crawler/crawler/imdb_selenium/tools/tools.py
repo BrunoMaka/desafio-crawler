@@ -28,7 +28,8 @@ class Tools(ABC):
         faz o setup do log
         '''   
         logging.basicConfig(
-            filename =  os.getcwd() + f"\\crawler\\imdb_selenium\\imdb.log", 
+            #filename =  os.getcwd() + f"\\crawler\\imdb_selenium\\imdb.log", 
+            filename =  os.getcwd() + f"\\imdb.log", 
             level = logging.INFO, 
             filemode='w', 
             encoding='utf8',

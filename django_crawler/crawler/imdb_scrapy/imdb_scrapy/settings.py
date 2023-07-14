@@ -29,12 +29,12 @@ logging.basicConfig(
 SPIDER_MODULES = ["imdb_scrapy.spiders"]
 NEWSPIDER_MODULE = "imdb_scrapy.spiders"
 
-DB_SETTINGS = {
+'''DB_SETTINGS = {
     'MYSQL_HOST': os.environ['DB_HOST'],
     'MYSQL_USER': os.environ['DB_USER'],
     'MYSQL_PASSWORD': os.environ['DB_PASSWORD'],
     'MYSQL_DATABASE': os.environ['DB_NAME'],
-}
+}'''
 
 ITEM_PIPELINES = {    
     'imdb_scrapy.pipelines.MySQLPipeline': 200,    

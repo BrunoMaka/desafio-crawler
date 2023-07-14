@@ -8,7 +8,7 @@
             <div class="history-item">
                 <a href="{% url 'infos' entry.id %}">
                     <div class="history-item-header">
-                        <span class="history-item-title">{{ entry.tipo_acionamento }}</span>
+                        <span class="history-item-title">{{ entry.tipo_acionamento }} - {{ entry.tipo_saida }}</span>
                         <span class="history-item-date">{{ entry.data_acionamento }}</span>
                     </div>                    
                 </a>
