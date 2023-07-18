@@ -38,7 +38,7 @@ pip install -r requirements.txt
 python runserver_migrate.py
 ```
 
-Este comando irá criar um banco de dados conforme o nome estabelecido dentro do arquivo .env (caso ele não exista), fará as migrações necessárias e executará o runserver
+Este comando fará as migrações necessárias e executará o runserver
 
 Caso não tenha mais migrações para serem feitas, execute o comando do runserver diretamente
 
